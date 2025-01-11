@@ -103,3 +103,4 @@ build
 haaska.zip
 /.vs
 /.idea/
+/.envrc
