@@ -57,12 +57,15 @@ class HomeAssistant(object):
         return r.json()
 
     def post(self, endpoint, data, wait=False):
-        read_timeout = None if wait else 0.01
         try:
             logger.debug(f'calling {endpoint} with {data}')
-            r = self.session.post(self.build_url(endpoint),
-                                  data=json.dumps(data),
-                                  timeout=(None, read_timeout))
+            if wait:
+                r = self.session.post(self.build_url(endpoint),
+                                      data=json.dumps(data))
+            else:
+                r = self.session.post(self.build_url(endpoint),
+                                      data=json.dumps(data),
+                                      timeout=0.01)
             r.raise_for_status()
             return r.json()
         except requests.exceptions.ReadTimeout:
@@ -86,6 +89,8 @@ class Configuration(object):
         self.ssl_verify = self.get(['ssl_verify', 'ha_cert'], default=True)
         self.bearer_token = self.get(['bearer_token'], default='')
         self.ssl_client = self.get(['ssl_client'], default='')
+        if isinstance(self.ssl_client, list):
+            self.ssl_client = tuple(self.ssl_client)
         self.debug = self.get(['debug'], default=False)
 
     def get(self, keys, default=None):
