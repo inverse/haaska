@@ -29,10 +29,11 @@ handling configuration and HTTP requests for Alexa smart home events.
 
 import json
 import logging
-import os
 from typing import Any, Dict, List, Optional
 
 import requests
+
+__version__ = "1.1.1"
 
 logger = logging.getLogger()
 
@@ -78,9 +79,9 @@ class HomeAssistant:
         """Generate a user agent string for requests.
 
         Returns:
-            str: User agent string including AWS region and default requests UA.
+            str: User agent string
         """
-        return f"Home Assistant Alexa Smart Home Skill - {os.environ.get('AWS_DEFAULT_REGION')} - {requests.utils.default_user_agent()}"
+        return f"haaska v{__version__}"
 
     def get(self, endpoint: str) -> Dict[str, Any]:
         """Perform a GET request to the Home Assistant API.

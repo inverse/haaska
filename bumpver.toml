@@ -1,0 +1,12 @@
+[bumpver]
+current_version = "1.1.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+push = false
+
+[bumpver.file_patterns]
+"haaska.py" = [
+    '__version__ = "{version}"',
+]
